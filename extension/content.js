@@ -48,7 +48,7 @@
         btn.style.display = '';
       } else {
         preview.textContent = 'Clipboardの中が法人番号ではありません';
-        preview.style.color = 'red';
+        preview.style.color = 'gray';
         btn.style.display = 'none';
       }
     }).catch(function () {
