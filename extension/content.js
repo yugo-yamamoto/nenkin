@@ -42,9 +42,18 @@
   function updatePreview() {
     navigator.clipboard.readText().then(function (text) {
       var trimmed = text.trim();
-      preview.textContent = /^\d{13}$/.test(trimmed) ? trimmed : '';
+      if (/^\d{13}$/.test(trimmed)) {
+        preview.textContent = trimmed;
+        preview.style.color = 'gray';
+        btn.style.display = '';
+      } else {
+        preview.textContent = 'Clipboardの中が法人番号ではありません';
+        preview.style.color = 'red';
+        btn.style.display = 'none';
+      }
     }).catch(function () {
       preview.textContent = '';
+      btn.style.display = 'none';
     });
   }
 
