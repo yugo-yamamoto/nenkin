@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>法人番号で検索（年金機構）</title>
+<style>
+  body { font-family: sans-serif; max-width: 500px; margin: 80px auto; text-align: center; }
+  input[type="text"] { font-size: 1.2em; padding: 8px 12px; width: 300px; border: 2px solid #0056b3; border-radius: 4px; }
+  button { font-size: 1.1em; padding: 9px 24px; background: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px; }
+  button:hover { background: #004499; }
+  p { color: #555; font-size: 0.9em; margin-top: 16px; }
+</style>
+</head>
+<body>
+<h2>年金機構 事業所検索</h2>
+<p>法人番号で検索</p>
+<input type="text" id="houjinNo" placeholder="法人番号（13桁）" autofocus>
+<button onclick="search()">検索</button>
+<p>検索ページが新しいタブで開き、法人番号が自動入力されます。<br>ポップアップがブロックされた場合は許可してください。</p>
+
+<script>
+function search() {
+  var num = document.getElementById('houjinNo').value.trim();
+  if (!num) { alert('法人番号を入力してください'); return; }
+
+  var win = window.open('https://www.nenkin.go.jp/do/search_section/', '_blank');
+  if (!win) { alert('ポップアップがブロックされました。このサイトのポップアップを許可してください。'); return; }
+
+  // ページロード完了後にフォーム入力
+  var attempt = 0;
+  var timer = setInterval(function() {
+    attempt++;
+    try {
+      var el = win.document.getElementById('txtHoujinNo');
+      if (el) {
+        el.value = num;
+        el.dispatchEvent(new win.Event('input', { bubbles: true }));
+        el.dispatchEvent(new win.Event('change', { bubbles: true }));
+        var form = el.closest('form');
+        if (form) form.submit();
+        clearInterval(timer);
+      }
+    } catch(e) {
+      // クロスオリジン制限でアクセスできない場合
+    }
+    if (attempt > 30) clearInterval(timer);
+  }, 300);
+}
+
+document.getElementById('houjinNo').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') search();
+});
+</script>
+</body>
+</html>

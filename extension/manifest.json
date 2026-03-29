@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "年金機構 コピペ有効化",
+  "version": "1.1",
+  "description": "nenkin.go.jp の検索フォームでコピペを有効にする",
+  "permissions": ["clipboardRead"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.nenkin.go.jp/do/search_section/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
