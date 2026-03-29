@@ -37,7 +37,7 @@
   });
 
   var preview = document.createElement('span');
-  preview.style.cssText = 'margin-left:8px; color:gray; font-size:0.9em;';
+  preview.style.cssText = 'display:block; margin-top:4px; color:gray; font-size:0.9em;';
 
   function updatePreview() {
     navigator.clipboard.readText().then(function (text) {
@@ -57,8 +57,8 @@
     });
   }
 
-  field.insertAdjacentElement('afterend', preview);
   field.insertAdjacentElement('afterend', btn);
+  btn.insertAdjacentElement('afterend', preview);
 
   updatePreview();
   field.addEventListener('focus', updatePreview);
